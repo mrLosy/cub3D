@@ -6,7 +6,7 @@
 #    By: haristot <haristot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/21 16:20:18 by haristot          #+#    #+#              #
-#    Updated: 2021/02/27 20:51:57 by haristot         ###   ########.fr        #
+#    Updated: 2021/03/08 16:03:27 by haristot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,21 +33,29 @@ MLX = -lmlx -framework OpenGL -framework AppKit
 
 OBJSRCS = $(SRCS:.c=.o)
 
+DSRCS = $(SRCS:.c=.d)
+
 CC = gcc 
 
 CFLAGS = -Wall -Wextra -Werror 
 
+INCLUDE = ./include/cub3d.h
+
 all : $(NAME)
 
-$(NAME) : $(OBJSRCS) 
+%.o: %.c $(INCLUDE)
+	$(CC) $(CFLAGS) -I$(INCLUDE) -MMD -c $< -o $@ 	
+
+$(NAME) : $(OBJSRCS) $(INCLUDE)
 	@echo "\033[0;36m[Deleting the previous cube...]"
 	@rm -rf cub3D
 	@echo "\033[0;36m[Libft compilation...]"
 	@$(MAKE) -C ./libft
 	@echo "\033[0;36m[mlx compilation...]"
 	@$(MAKE) -C ./mlx
+	@rm -rf $(DSRCS)
 	@echo "\033[0;36m[Cub3D compilation...]"
-	gcc $(OBJSRCS) -I./include ./libft/libft.a libmlx.dylib -I./mlx $(MLX) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJSRCS) -I./include ./libft/libft.a libmlx.dylib -I./mlx $(MLX) -o $(NAME)
 	@echo "\033[0;36m[Done !]"
 
 test:

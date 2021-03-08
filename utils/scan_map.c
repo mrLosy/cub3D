@@ -6,7 +6,7 @@
 /*   By: haristot <haristot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 03:42:02 by haristot          #+#    #+#             */
-/*   Updated: 2021/02/27 21:52:36 by haristot         ###   ########.fr       */
+/*   Updated: 2021/03/08 16:06:56 by haristot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,8 @@ void		ft_space_add(t_all *all)
 		if ((i = ft_strlen(all->map.map[h])) < all->map.len)
 		{
 			ptr = all->map.map[h];
-			str = ft_calloc(sizeof(char *), all->map.len - i + 1);
+			if (!(str = ft_calloc(sizeof(char *), all->map.len - i + 1)))
+				ft_error("Error\nError in calloc\n");
 			i = all->map.len - i;
 			while ((i) >= 0)
 				str[i--] = ' ';
